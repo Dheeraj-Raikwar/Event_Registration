@@ -94,6 +94,16 @@ function RegisterApproval() {
 
   }
 
+  function _arrayBufferToBase64( buffer ) {
+    var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
+    }
+    return window.btoa( binary );
+}
+
    
 
   return (
@@ -162,6 +172,7 @@ function RegisterApproval() {
                 <th scope="col">Mobile_No</th>
                 <th scope="col">DOB</th>
                 <th scope="col">Gender</th>
+                <th scope="col">Profile Pic</th>
                 <th scope="col">Approve</th>
                 <th scope="col">Deny</th>
               </tr>
@@ -175,6 +186,8 @@ function RegisterApproval() {
                   <td>{user.user_mobile}</td>
                   <td>{user.user_dob}</td>
                   <td>{user.user_gender}</td>
+                  <td><img
+                    src={"data:image/png;base64," + _arrayBufferToBase64(user.user_image)}/></td>
                   <td>
                     <button
                       className="btn btn-success"

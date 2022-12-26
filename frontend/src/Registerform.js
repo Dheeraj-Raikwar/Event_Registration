@@ -32,16 +32,10 @@ export default function Registerform(props) {
     mobile: "",
     dob: "",
     gender: "",
+    image:""
   });
-  function image(e){
-
-    setProfilephoto(e.target.files[0])
-
-  }
-
-
-
-
+  
+  
   function validateDomain(email, companyName) {
     return companyName.some((val) => email.includes(val));
   }
@@ -81,7 +75,8 @@ export default function Registerform(props) {
       data.workemail !== "" &&
       data.mobile !== "" &&
       data.dob !== "" &&
-      data.gender !== ""
+      data.gender !== "" &&
+      data.image !== ""
     ) {
       fetch("http://localhost:3001/user_event_details", {
         method: "POST",
@@ -92,7 +87,7 @@ export default function Registerform(props) {
           user_mobile: data.mobile,
           user_dob: data.dob,
           user_gender: data.gender,
-          user_image: profilePhoto,
+          user_image: data.image,
           event_id: props.id,
           event_category: "general",
         }),
@@ -103,7 +98,7 @@ export default function Registerform(props) {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          console.log(profilePhoto)
+          console.log("profilePhoto" +profilePhoto)
           // Handle data
         })
         .catch((err) => {
@@ -255,8 +250,10 @@ export default function Registerform(props) {
                       <label className="label">Upload Profile Photo</label>
                     </td>
                     <td>
-                      <input type="file" id="profile" name="profile" accept="image/png, image/jpg, image/jpeg" 
-onChange={(e) => image(e)}></input>
+                      <input type="file" id="profile" name="profile" accept="image/png, image/jpg, image/jpeg" value={data.image}
+onChange={(e) => {
+  handle(e);
+}}></input>
                     </td>
                   </tr>
                 </tbody>

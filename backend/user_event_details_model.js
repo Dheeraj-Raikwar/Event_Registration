@@ -112,8 +112,11 @@ function sendEmail(userName, userEmail, eventId) {
     from: '"Registration successful" <dheerajraikwar@jmangroup.com>', // sender address (who sends)
     to: userEmail, // list of receivers (who receives)
     subject: 'Hello '+ userName, // Subject line
-    text: 'Registration of the event. Event Id: ' + {eventId}, // plaintext body
-    html: '<b>"Hello"+ {{userName}} </b><br>"Thank you for registering for the event:+ {{eventId}}" )' // html body
+    text: 'Registration of the event.', // plaintext body
+    html: "<p>Thank you for registering the event</p>\
+    <br>\
+    <p>User Name: </p> <p>"+userName+" </p><br>\
+    <p>Event Id: </p> <p>"+eventId+" </p><br>" // html body
   };
 
   // send mail with defined transport object

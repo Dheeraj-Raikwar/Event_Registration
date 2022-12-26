@@ -172,6 +172,7 @@ function RegisteredUsers() {
               <th scope="col">Mobile_No</th>
               <th scope="col">DOB</th>
               <th scope="col">Gender</th>
+              <th scope="col">Profile Pic</th>
             </tr>
           </thead>
           {select ? (
@@ -187,6 +188,8 @@ function RegisteredUsers() {
                         <td>{user.user_mobile}</td>
                         <td>{user.user_dob}</td>
                         <td>{user.user_gender}</td>
+                        <td><img
+                    src={"data:image/png;base64," + user.user_image.data}/></td>
                       </tr>
                     </tbody>
                   ))}
@@ -204,6 +207,8 @@ function RegisteredUsers() {
                     <td>{user.user_mobile}</td>
                     <td>{user.user_dob}</td>
                     <td>{user.user_gender}</td>
+                    <td><img
+                    src={"data:image/png;base64," + user.user_image.data}/></td>
                   </tr>
                 </tbody>
               ))}
