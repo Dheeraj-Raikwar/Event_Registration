@@ -41,7 +41,7 @@
 .flex {
   display: grid;
   flex-direction: row;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .logo {
@@ -74,24 +74,33 @@
   font-weight: bold;
 }
 
-.event-form{
+.event-form {
   background-color: rgb(168, 212, 231);
   border-radius: 5px;
 }
 
-.carousel-image{
+.carousel-image {
   height: 680px;
   width: 100%;
 }
-.box-width{
-  width:200px;
-}
-.filter-width{
-  width: 700px
-}
-.select-width{
+
+.box-width {
   width: 200px;
 }
-.date-width{
+
+.filter-width {
+  width: 700px
+}
+
+.select-width {
+  width: 200px;
+}
+
+.date-width {
   width: 190px;
+}
+
+.profile-pic {
+  height: 75px;
+  width: 100px;
 }

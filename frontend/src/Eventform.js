@@ -15,6 +15,8 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import FlakyIcon from "@mui/icons-material/Flaky";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const drawerWidth = 240;
 
@@ -47,6 +49,7 @@ function Eventform() {
   const [display, setDisplay] = useState();
 
   function submit(e) {
+    e.preventDefault()
     if (
       data.eventname !== "" &&
       data.description !== "" &&
@@ -73,14 +76,32 @@ function Eventform() {
         .catch((err) => {
           console.log(err.message);
         });
-
-      alert("Event created Successfully!");
+      toast.success("Event created successfully", {
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        position: toast.POSITION.TOP_CENTER,
+      });
       setData("")
     } else {
-      alert("Please enter all the details");
+      toast.error("Please enter all the details", {
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        position: toast.POSITION.TOP_CENTER,
+      });
       e.preventDefault();
     }
   }
+
   function handle(e) {
     const newData = { ...data };
     newData[e.target.id] = e.target.value;
@@ -186,26 +207,35 @@ function Eventform() {
                     <label className="label">Category</label>
                   </td>
                   <td>
-                  <select
-                        className="box-width"
-                        onChange={(e) => handle(e)}
-                        value={data.category}
-                        id="category"
-                        placeholder="category"
-                      >
-                        <option value="seminar">
-                          Seminar
-                        </option>
-                        <option value="Trade shows">
-                          Trade shows
-                        </option>
-                        <option value="Golf events">
-                          Golf events
-                        </option>
-                        <option value="Charity events">
-                          Charity events
-                        </option>
-                      </select>
+                    <select
+                      className="box-width"
+                      onChange={(e) => handle(e)}
+                      value={data.category}
+                      id="category"
+                      placeholder="category"
+                    >
+                      <option value="Arts">
+                        Arts
+                      </option>
+                      <option value="Air">
+                        Air
+                      </option>
+                      <option value="Engineering">
+                        Engineering
+                      </option>
+                      <option value="Health & Medicine">
+                        Health & Medicine
+                      </option>
+                      <option value="Youth">
+                        Youth
+                      </option>
+                      <option value="Music">
+                        Music
+                      </option>
+                      <option value="Travel & Hospitality">
+                        Travel & Hospitality
+                      </option>
+                    </select>
                   </td>
                 </tr>
                 <br />

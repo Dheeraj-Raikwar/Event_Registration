@@ -81,11 +81,12 @@ app.get('/user_request_pending', (req, res) => {
 })
 
 // TO ACCEPT A REQUEST BY USER's FIRST NAME AND EVENT ID
-app.put('/user_Accrequest/:fname/:id', (req, res) => {
+app.put('/user_Accrequest/:fname/:id/:email', (req, res) => {
   console.log(req.params)
-  user_event_details_model.acceptRequest(req.params.fname,req.params.id)
+  user_event_details_model.acceptRequest(req.params.fname,req.params.id,req.params.email)
   .then(response => {
     res.status(200).send(response);
+
   })
   .catch(error => {
     console.log(error)

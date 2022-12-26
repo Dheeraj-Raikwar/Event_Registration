@@ -29,23 +29,26 @@ export default function Adminlogin() {
     const navigate = useNavigate()
     const [data, setData] = useState({
         email: "",
-        password: "",
+        password: ""
     });
     const [display, setDisplay] = useState()
     function login(e) {
         e.preventDefault()
         if ((data.email === 'rekha@jmangroup.com') && (data.password === '1234567')) {
-            toast.success('Success Notification !', {
-                position: toast.POSITION.TOP_RIGHT
-            });
             navigate("/registeredUsers")
             handleClose()
         }
         else {
-            toast.success('Success Notification !', {
-                position: toast.POSITION.TOP_RIGHT
+            toast.error("You're not an admin", {
+                autoClose: 4000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                position: toast.POSITION.TOP_CENTER,
             });
-            alert("You're not an admin")
         }
     }
     function handle(e) {

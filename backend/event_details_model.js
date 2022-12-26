@@ -4,7 +4,7 @@ const pool = new Client({
   user: 'postgres',
   host: 'localhost',
   database: 'event_registration',
-  password: 'Rekha@1826',
+  password: 'dheeraj',
 }); 
 
 pool.connect();

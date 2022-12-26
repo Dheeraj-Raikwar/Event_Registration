@@ -22,6 +22,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+
 const drawerWidth = 240;
 
 function RegisteredUsers() {
@@ -64,6 +65,8 @@ function RegisteredUsers() {
         console.log(err.message);
       });
   }
+
+
 
   const navigate = useNavigate();
   const itemsList = [
@@ -109,7 +112,6 @@ function RegisteredUsers() {
           </Button>
           Admin
           <br />
-          Rekha
         </Toolbar>
       </AppBar>
       <Drawer
@@ -158,7 +160,7 @@ function RegisteredUsers() {
               </MenuItem>
             ))}
           </Select>
-        </FormControl><br/><br/>
+        </FormControl><br /><br />
 
         <table className="table">
           <thead className="table-info thead-width">
@@ -169,27 +171,30 @@ function RegisteredUsers() {
               <th scope="col">Mobile_No</th>
               <th scope="col">DOB</th>
               <th scope="col">Gender</th>
+              <th scope="col">Profile Pic</th>
             </tr>
           </thead>
-          { select ? (
+          {select ? (
             <>
-            { filterdata.length > 0  &&
-            <>
-              {filterdata.map((user) => (
-                <tbody className="table-data shadow-lg">
-                  <tr>
-                    <td>{user.user_firstname}</td>
-                    <td>{user.user_lasttname}</td>
-                    <td>{user.user_work_email}</td>
-                    <td>{user.user_mobile}</td>
-                    <td>{user.user_dob}</td>
-                    <td>{user.user_gender}</td>
-                  </tr>
-                </tbody>
-              ))}
-            </>
+              {filterdata.length > 0 &&
+                <>
+                  {filterdata.map((user) => (
+                    <tbody className="table-data shadow-lg">
+                      <tr>
+                        <td>{user.user_firstname}</td>
+                        <td>{user.user_lasttname}</td>
+                        <td>{user.user_work_email}</td>
+                        <td>{user.user_mobile}</td>
+                        <td>{user.user_dob}</td>
+                        <td>{user.user_gender}</td>
+                        <td><img className="profile-pic"
+                          src={user.user_image} /></td>
+                      </tr>
+                    </tbody>
+                  ))}
+                </>
               }
-              </>
+            </>
           ) : (
             <>
               {data.map((user) => (
@@ -201,6 +206,8 @@ function RegisteredUsers() {
                     <td>{user.user_mobile}</td>
                     <td>{user.user_dob}</td>
                     <td>{user.user_gender}</td>
+                    <td><img className="profile-pic"
+                      src={user.user_image} /></td>
                   </tr>
                 </tbody>
               ))}

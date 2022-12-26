@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import * as React from "react";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const style = {
   position: "absolute",
@@ -24,24 +26,42 @@ export default function Registerform(props) {
   const [emailError, setEmailError] = useState("")
   const [mobileError, setMobileerror] = useState("")
   const [dobError, setDoberror] = useState("")
-  const url = "http://localhost:3001/user_event_details";
+  const [profilePhoto, setProfilephoto] = useState()
   const [data, setData] = useState({
     firstname: "",
     lastname: "",
     workemail: "",
     mobile: "",
     dob: "",
-    gender: "",
+    gender: ""
   });
+
+
   function validateDomain(email, companyName) {
     return companyName.some((val) => email.includes(val));
   }
+
   function validateEmail(e) {
-    if (!validateDomain(data.workemail, ['jmangroup.com', 'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com'])) {
-      setEmailError("please enter email with valid domain name")
-    }
-    else if (validateDomain(data.workemail, ['jmangroup.com', 'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com'])) {
-      setEmailError("")
+    if (
+      !validateDomain(data.workemail, [
+        "jmangroup.com",
+        "gmail.com",
+        "yahoo.com",
+        "outlook.com",
+        "hotmail.com",
+      ])
+    ) {
+      setEmailError("please enter email with valid domain name");
+    } else if (
+      validateDomain(data.workemail, [
+        "jmangroup.com",
+        "gmail.com",
+        "yahoo.com",
+        "outlook.com",
+        "hotmail.com",
+      ])
+    ) {
+      setEmailError("");
     }
   }
 
@@ -74,7 +94,7 @@ export default function Registerform(props) {
       data.dob !== "" &&
       data.gender !== ""
     ) {
-      fetch("http://localhost:3001/api/MeetingNotes", {
+      fetch("http://localhost:3001/user_event_details", {
         method: "POST",
         body: JSON.stringify({
           user_firstname: data.firstname,
@@ -83,12 +103,9 @@ export default function Registerform(props) {
           user_mobile: data.mobile,
           user_dob: data.dob,
           user_gender: data.gender,
-          user_image: {
-            type: "Buffer",
-            data: [49, 48, 49, 48, 49],
-          },
+          user_image: profilePhoto,
           event_id: props.id,
-          event_category: "general",
+          event_category: props.category,
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -103,19 +120,68 @@ export default function Registerform(props) {
           console.log(err.message);
         });
 
-      alert("Registration Successful!");
+      toast.success("Registered Successfully!", {
+        autoClose: 6000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        position: toast.POSITION.TOP_CENTER,
+      });
     } else {
-      alert("Please enter all the details");
+      toast.error("Please enter all the details", {
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        position: toast.POSITION.TOP_CENTER,
+      });
       e.preventDefault();
     }
   }
+
   function handle(e) {
     const newData = { ...data };
     newData[e.target.id] = e.target.value;
     setData(newData);
     console.log(newData);
   }
-
+  const image = async (e) => {
+    const file = e.target.files[0];
+    if (file.size > 20000) {
+      toast.error("please upload a file with the size <= 20kb", {
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } else {
+      const base64 = await convertBase64(file);
+      console.log(base64);
+      setProfilephoto(base64);
+    }
+  };
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
   return (
     <div>
       <Button onClick={handleOpen}>Register</Button>
@@ -234,6 +300,9 @@ export default function Registerform(props) {
                         id="gender"
                         placeholder="gender"
                       >
+                        <option className="input" value="null">
+                          Select
+                        </option>
                         <option className="input" value="Male">
                           Male
                         </option>
@@ -248,7 +317,13 @@ export default function Registerform(props) {
                       <label className="label">Upload Profile Photo</label>
                     </td>
                     <td>
-                      <input type="file" id="profile" name="profile"></input>
+                      <input
+                        type="file"
+                        id="profile"
+                        name="profile"
+                        accept="image/png, image/jpg, image/jpeg"
+                        onChange={(e) => image(e)}
+                      ></input>
                     </td>
                   </tr>
                 </tbody>

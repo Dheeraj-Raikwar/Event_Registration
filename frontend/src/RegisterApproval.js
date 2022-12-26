@@ -17,12 +17,11 @@ import FlakyIcon from "@mui/icons-material/Flaky";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import emailjs from "emailjs-com";
-
 const drawerWidth = 240;
 
 function RegisterApproval() {
 
-  const[approval, setApproval] = useState(false);
+  const [approval, setApproval] = useState(false);
 
   const navigate = useNavigate();
   const itemsList = [
@@ -42,8 +41,8 @@ function RegisterApproval() {
       onClick: () => navigate("/createEvent"),
     },
   ];
-  function sendEmail(){
-    emailjs.sendForm('service_v9fle6q','template_nfczxtb','abcd','6MrwJ0tQ1rFaQia50')
+  function sendEmail() {
+    emailjs.sendForm('service_v9fle6q', 'template_nfczxtb', 'abcd', '6MrwJ0tQ1rFaQia50')
   }
   const [data, setData] = useState([]);
   function fetchData() {
@@ -59,41 +58,43 @@ function RegisterApproval() {
   useEffect(() => {
     fetchData();
   }, [approval]);
-  function accept(user_firstname,event_id) {
-    
-    const queryString = user_firstname+"/"+event_id;
+
+  function accept(user_firstname, event_id, user_work_email) {
+
+    const queryString = user_firstname + "/" + event_id + "/" + user_work_email;
     fetch("http://localhost:3001/user_Accrequest/" + queryString, {
-        method: "PUT"
+      method: "PUT"
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        sendEmail(user_firstname, user_work_email, event_id)
+        setApproval(true)
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setApproval(true)
-          // Handle data
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-        sendEmail()
+      .catch((err) => {
+        console.log(err.message);
+      });
 
   }
-  function reject(user_firstname,event_id) {
-    
-    const queryString = user_firstname+"/"+event_id;
+  function reject(user_firstname, event_id) {
+
+    const queryString = user_firstname + "/" + event_id;
     fetch("http://localhost:3001/user_Rejrequest/" + queryString, {
-        method: "PUT"
+      method: "PUT"
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setApproval(true)
+        // Handle data
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setApproval(true)
-          // Handle data
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      .catch((err) => {
+        console.log(err.message);
+      });
 
   }
+
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -119,7 +120,6 @@ function RegisterApproval() {
           </Button>
           Admin
           <br />
-          Rekha
         </Toolbar>
       </AppBar>
       <Drawer
@@ -160,6 +160,7 @@ function RegisterApproval() {
                 <th scope="col">Mobile_No</th>
                 <th scope="col">DOB</th>
                 <th scope="col">Gender</th>
+                <th scope="col">Profile Pic</th>
                 <th scope="col">Approve</th>
                 <th scope="col">Deny</th>
               </tr>
@@ -173,10 +174,12 @@ function RegisterApproval() {
                   <td>{user.user_mobile}</td>
                   <td>{user.user_dob}</td>
                   <td>{user.user_gender}</td>
+                  <td><img className="profile-pic"
+                    src={user.user_image} /></td>
                   <td>
                     <button
                       className="btn btn-success"
-                      onClick={() => accept(user.user_firstname,user.event_id)}
+                      onClick={() => accept(user.user_firstname, user.event_id, user.user_work_email)}
                     >
                       Accept
                     </button>
@@ -184,7 +187,7 @@ function RegisterApproval() {
                   <td>
                     <button
                       className="btn btn-danger"
-                      onClick={() =>  reject(user.user_firstname,user.event_id)}
+                      onClick={() => reject(user.user_firstname, user.event_id)}
                     >
                       Reject
                     </button>
