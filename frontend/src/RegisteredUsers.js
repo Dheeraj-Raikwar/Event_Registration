@@ -112,7 +112,6 @@ function RegisteredUsers() {
           </Button>
           Admin
           <br />
-          Rekha
         </Toolbar>
       </AppBar>
       <Drawer
@@ -188,8 +187,8 @@ function RegisteredUsers() {
                         <td>{user.user_mobile}</td>
                         <td>{user.user_dob}</td>
                         <td>{user.user_gender}</td>
-                        <td><img
-                    src={"data:image/png;base64," + user.user_image}/></td>
+                        <td><img className="profile-pic"
+                          src={user.user_image} /></td>
                       </tr>
                     </tbody>
                   ))}
@@ -207,8 +206,8 @@ function RegisteredUsers() {
                     <td>{user.user_mobile}</td>
                     <td>{user.user_dob}</td>
                     <td>{user.user_gender}</td>
-                    <td><img
-                    src={"data:image/png;base64," + user.user_image.data}/></td>
+                    <td><img className="profile-pic"
+                      src={user.user_image} /></td>
                   </tr>
                 </tbody>
               ))}

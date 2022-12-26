@@ -21,7 +21,7 @@ const drawerWidth = 240;
 
 function RegisterApproval() {
 
-  const[approval, setApproval] = useState(false);
+  const [approval, setApproval] = useState(false);
 
   const navigate = useNavigate();
   const itemsList = [
@@ -41,8 +41,8 @@ function RegisterApproval() {
       onClick: () => navigate("/createEvent"),
     },
   ];
-  function sendEmail(){
-    emailjs.sendForm('service_v9fle6q','template_nfczxtb','abcd','6MrwJ0tQ1rFaQia50')
+  function sendEmail() {
+    emailjs.sendForm('service_v9fle6q', 'template_nfczxtb', 'abcd', '6MrwJ0tQ1rFaQia50')
   }
   const [data, setData] = useState([]);
   function fetchData() {
@@ -60,51 +60,40 @@ function RegisterApproval() {
   }, [approval]);
 
   function accept(user_firstname, event_id, user_work_email) {
-    
-    const queryString = user_firstname +"/"+ event_id +"/"+ user_work_email;
+
+    const queryString = user_firstname + "/" + event_id + "/" + user_work_email;
     fetch("http://localhost:3001/user_Accrequest/" + queryString, {
-        method: "PUT"
+      method: "PUT"
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        sendEmail(user_firstname, user_work_email, event_id)
+        setApproval(true)
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          sendEmail(user_firstname,user_work_email,event_id)
-          setApproval(true)
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      .catch((err) => {
+        console.log(err.message);
+      });
 
   }
-  function reject(user_firstname,event_id) {
-    
-    const queryString = user_firstname+"/"+event_id;
+  function reject(user_firstname, event_id) {
+
+    const queryString = user_firstname + "/" + event_id;
     fetch("http://localhost:3001/user_Rejrequest/" + queryString, {
-        method: "PUT"
+      method: "PUT"
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setApproval(true)
+        // Handle data
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setApproval(true)
-          // Handle data
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      .catch((err) => {
+        console.log(err.message);
+      });
 
   }
 
-  function _arrayBufferToBase64( buffer ) {
-    var binary = '';
-    var bytes = new Uint8Array( buffer );
-    var len = bytes.byteLength;
-    for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode( bytes[ i ] );
-    }
-    return window.btoa( binary );
-}
-
-   
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -131,7 +120,6 @@ function RegisterApproval() {
           </Button>
           Admin
           <br />
-          Rekha
         </Toolbar>
       </AppBar>
       <Drawer
@@ -186,8 +174,8 @@ function RegisterApproval() {
                   <td>{user.user_mobile}</td>
                   <td>{user.user_dob}</td>
                   <td>{user.user_gender}</td>
-                  <td><img
-                    src={"data:image/png;base64," + _arrayBufferToBase64(user.user_image)}/></td>
+                  <td><img className="profile-pic"
+                    src={user.user_image} /></td>
                   <td>
                     <button
                       className="btn btn-success"
@@ -199,7 +187,7 @@ function RegisterApproval() {
                   <td>
                     <button
                       className="btn btn-danger"
-                      onClick={() =>  reject(user.user_firstname,user.event_id)}
+                      onClick={() => reject(user.user_firstname, user.event_id)}
                     >
                       Reject
                     </button>
