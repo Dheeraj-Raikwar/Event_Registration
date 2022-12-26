@@ -82,7 +82,7 @@ export default function EventCard() {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Registerform id={event.id}/>
+                            <Registerform id={event.id} category = {event.category} />
                         </CardActions>
                     </Card>
                    

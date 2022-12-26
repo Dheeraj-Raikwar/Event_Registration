@@ -32,10 +32,10 @@ export default function Registerform(props) {
     mobile: "",
     dob: "",
     gender: "",
-    image:""
+    image: ""
   });
-  
-  
+
+
   function validateDomain(email, companyName) {
     return companyName.some((val) => email.includes(val));
   }
@@ -87,9 +87,19 @@ export default function Registerform(props) {
           user_mobile: data.mobile,
           user_dob: data.dob,
           user_gender: data.gender,
-          user_image: data.image,
+          //user_image: data.image, // getting fakepath not atual file (Stuck)
+          user_image:{             //  inserting default value so that it can work without exception
+            "type": "Buffer",
+            "data": [
+                49,
+                48,
+                49,
+                48,
+                49
+            ]
+        },
           event_id: props.id,
-          event_category: "general",
+          event_category: props.category,
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -98,7 +108,6 @@ export default function Registerform(props) {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          console.log("profilePhoto" +profilePhoto)
           // Handle data
         })
         .catch((err) => {
@@ -250,10 +259,10 @@ export default function Registerform(props) {
                       <label className="label">Upload Profile Photo</label>
                     </td>
                     <td>
-                      <input type="file" id="profile" name="profile" accept="image/png, image/jpg, image/jpeg" value={data.image}
-onChange={(e) => {
-  handle(e);
-}}></input>
+                      <input type="file" id="image" name="profile" accept="image/png, image/jpg, image/jpeg" value={data.image}
+                        onChange={(e) => {
+                          handle(e);
+                        }}></input>
                     </td>
                   </tr>
                 </tbody>

@@ -189,7 +189,7 @@ function RegisteredUsers() {
                         <td>{user.user_dob}</td>
                         <td>{user.user_gender}</td>
                         <td><img
-                    src={"data:image/png;base64," + user.user_image.data}/></td>
+                    src={"data:image/png;base64," + user.user_image}/></td>
                       </tr>
                     </tbody>
                   ))}

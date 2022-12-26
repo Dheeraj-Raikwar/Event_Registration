@@ -31,7 +31,7 @@ const createUser_event_details = (body) => {
       if (error) {
         reject(error)
       }
-      
+        console.log("User Image: "+ body.user_image)
        resolve(`THE USER HAS SUCESSFULLY REGISTERED FOR THE EVENT: ${JSON.stringify(results.rows[0])}`)
     })
   })
@@ -113,10 +113,10 @@ function sendEmail(userName, userEmail, eventId) {
     to: userEmail, // list of receivers (who receives)
     subject: 'Hello '+ userName, // Subject line
     text: 'Registration of the event.', // plaintext body
-    html: "<p>Thank you for registering the event</p>\
+    html: "<p>Thank you for registering the event. This is confirmation email that you have successfully register for the event.</p>\
     <br>\
-    <p>User Name: </p> <p>"+userName+" </p><br>\
-    <p>Event Id: </p> <p>"+eventId+" </p><br>" // html body
+    <h5>Your Name: </h5> <p>"+userName+" </p><br>\
+    <h5>Event Id: </h5> <p>"+eventId+" </p><br>" // html body
   };
 
   // send mail with defined transport object
