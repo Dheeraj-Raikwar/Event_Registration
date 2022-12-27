@@ -66,8 +66,6 @@ function RegisteredUsers() {
       });
   }
 
-
-
   const navigate = useNavigate();
   const itemsList = [
     {
