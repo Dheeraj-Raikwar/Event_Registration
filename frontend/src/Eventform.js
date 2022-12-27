@@ -133,7 +133,6 @@ function Eventform() {
           </Button>
           Admin
           <br />
-          Rekha
         </Toolbar>
       </AppBar>
       <Drawer
@@ -172,7 +171,7 @@ function Eventform() {
               <tbody>
                 <tr>
                   <td>
-                    <label className="label">Name</label>
+                    <label className="label">Name<span style = {{color:'red'}}>*</span></label>
                   </td>
                   <td>
                     <input
@@ -188,7 +187,7 @@ function Eventform() {
                 <br />
                 <tr>
                   <td>
-                    <label className="label">Description</label>
+                    <label className="label">Description<span style = {{color:'red'}}>*</span></label>
                   </td>
                   <td>
                     <input
@@ -204,7 +203,7 @@ function Eventform() {
                 <br />
                 <tr>
                   <td>
-                    <label className="label">Category</label>
+                    <label className="label">Category<span style = {{color:'red'}}>*</span></label>
                   </td>
                   <td>
                     <select
@@ -241,7 +240,7 @@ function Eventform() {
                 <br />
                 <tr>
                   <td>
-                    <label className="label">Date</label>
+                    <label className="label">Date<span style = {{color:'red'}}>*</span></label>
                   </td>
                   <td>
                     <input

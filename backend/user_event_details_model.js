@@ -150,5 +150,6 @@ module.exports = {
 	getUserRequestpending,
 	acceptRequest,
 	rejectRequest,
-	getUser_ByEvent
+	getUser_ByEvent,
+	checkDuplicacy
 }

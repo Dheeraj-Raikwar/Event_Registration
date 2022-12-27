@@ -91,6 +91,7 @@ export default function Registerform(props) {
   
   function checkDuplicacy(firstname,eventId) {  
     var queryString = firstname+"/"+ eventId
+    console.log("firstname: "+ firstname + "eventId: " +eventId)
     fetch("http://localhost:3001/check_user_event_details/"+ queryString)
       .then((response) => {
         return response.json();
@@ -104,8 +105,8 @@ export default function Registerform(props) {
 
 
   function submit(e) {
-
-    if(checkDuplicacy(data.firstname, props.id)){
+    var isPresent2 = checkDuplicacy(data.firstname, props.id);
+    if(isPresent2){
       toast.error("You have already registered for this event!", {
         autoClose: 4000,
         hideProgressBar: true,
@@ -146,7 +147,7 @@ export default function Registerform(props) {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          // Handle data
+          
         })
         .catch((err) => {
           console.log(err.message);
@@ -162,6 +163,7 @@ export default function Registerform(props) {
         theme: "colored",
         position: toast.POSITION.TOP_CENTER,
       });
+      e.preventDefault();
     } else {
       toast.error("Please enter all the details", {
         autoClose: 4000,
@@ -239,7 +241,7 @@ export default function Registerform(props) {
                 <tbody>
                   <tr>
                     <td>
-                      <label className="label">First Name</label>
+                      <label className="label">First Name<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input
@@ -254,7 +256,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Last Name</label>
+                      <label className="label">Last Name<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input
@@ -269,7 +271,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Work Email</label>
+                      <label className="label">Work Email<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input
@@ -287,7 +289,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Mobile Number</label>
+                      <label className="label">Mobile Number<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input
@@ -305,7 +307,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">DOB</label>
+                      <label className="label">DOB<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input
@@ -321,7 +323,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Gender</label>
+                      <label className="label">Gender<span style = {{color:'red'}}>*</span></label>
                       <br />
                     </td>
                     <td>
@@ -346,7 +348,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Upload Profile Photo</label>
+                      <label className="label">Upload Profile Photo<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input

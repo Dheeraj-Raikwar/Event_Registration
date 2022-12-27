@@ -156,7 +156,7 @@ function RegisteredUsers() {
             </MenuItem>
             {search.map((event) => (
               <MenuItem value={event.id}>
-                {event.eventname}: {event.category}
+                {event.eventname}  <b>: <i>{event.category}</i></b>
               </MenuItem>
             ))}
           </Select>
