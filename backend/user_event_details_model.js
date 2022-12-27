@@ -90,6 +90,18 @@ const getUser_ByEvent = (eventId) => {
 	})
 }
 
+const checkDuplicacy = (fname, eventId) => {
+
+	return new Promise(function (resolve, reject) {
+		pool.query("SELECT EXISTS(SELECT * FROM user_event_details WHERE user_firstname = $1 AND event_id = $2)", [fname, eventId], (error, results) => {
+			if (error) {
+				reject(error)
+			}
+			resolve(results.rows);
+		})
+	})
+}
+
 
 // Function to send email
 function sendEmail(userName, userEmail, eventId) {

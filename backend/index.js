@@ -108,6 +108,19 @@ app.put('/user_Rejrequest/:fname/:id', (req, res) => {
   })
 })
 
+app.get('/check_user_event_details/:fname/:id', (req, res) => {
+  console.log(req.params)
+  user_event_details_model.checkDuplicacy(req.params.fname,req.params.id)
+  .then(response => {
+    res.status(200).send(response);
+
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send(error);
+  })
+})
+
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
