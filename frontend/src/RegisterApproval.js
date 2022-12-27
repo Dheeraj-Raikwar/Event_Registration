@@ -168,7 +168,7 @@ function RegisterApproval() {
                   <td>{user.user_lasttname}</td>
                   <td>{user.user_work_email}</td>
                   <td>{user.user_mobile}</td>
-                  <td>{user.user_dob}</td>
+                  <td>{(user.user_dob).split('T')[0]}</td>
                   <td>{user.user_gender}</td>
                   <td><img className="profile-pic"
                     src={user.user_image} /></td>
