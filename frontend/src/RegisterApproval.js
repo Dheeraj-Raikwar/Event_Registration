@@ -52,12 +52,12 @@ function RegisterApproval() {
         setData(data);
       });
   }
+
   useEffect(() => {
     fetchData();
   }, [approval]);
 
   function accept(user_firstname, event_id, user_work_email) {
-
     const queryString = user_firstname + "/" + event_id + "/" + user_work_email;
     fetch("http://localhost:3001/user_Accrequest/" + queryString, {
       method: "PUT"
@@ -65,11 +65,12 @@ function RegisterApproval() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setApproval(true)
+        
       })
       .catch((err) => {
         console.log(err.message);
       });
+      setApproval(!approval)
 
   }
   function reject(user_firstname, event_id) {
@@ -81,12 +82,11 @@ function RegisterApproval() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setApproval(true)
-        // Handle data
       })
       .catch((err) => {
         console.log(err.message);
       });
+      setApproval(!approval)
 
   }
 

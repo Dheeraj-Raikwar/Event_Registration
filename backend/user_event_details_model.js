@@ -12,7 +12,7 @@ pool.connect();
 
 const getUser_event_details = () => {
 	return new Promise(function (resolve, reject) {
-		pool.query('SELECT * FROM USER_EVENT_DETAILS WHERE status IS NOT NULL', (error, results) => {
+		pool.query("SELECT * FROM USER_EVENT_DETAILS WHERE status IS NOT NULL  AND status !='REJECTED'", (error, results) => {
 			if (error) {
 				reject(error)
 			}
@@ -81,7 +81,7 @@ const rejectRequest = (fname, id) => {
 const getUser_ByEvent = (eventId) => {
 
 	return new Promise(function (resolve, reject) {
-		pool.query("SELECT * FROM USER_EVENT_DETAILS WHERE event_id=$1", [eventId], (error, results) => {
+		pool.query("SELECT * FROM USER_EVENT_DETAILS WHERE event_id=$1 AND status !='REJECTED'", [eventId], (error, results) => {
 			if (error) {
 				reject(error)
 			}
@@ -125,7 +125,7 @@ function sendEmail(userName, userEmail, eventId) {
 		to: userEmail, // list of receivers (who receives)
 		subject: 'Hello ' + userName, // Subject line
 		text: 'Registration of the event.', // plaintext body
-		html: "<p>Thank you for registering the event. This is confirmation email that you have successfully register for the event.</p>\
+		html: "<p>Thank you for registering the event. This is confirmation email that you have successfully registered for the event.</p>\
     <br>\
     <h5>Your Name: </h5> <p>"+ userName + " </p><br>\
     <h5>Event Id: </h5> <p>"+ eventId + " </p><br>" // html body
