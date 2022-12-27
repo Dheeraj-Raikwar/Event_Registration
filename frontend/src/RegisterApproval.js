@@ -16,7 +16,6 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import FlakyIcon from "@mui/icons-material/Flaky";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import emailjs from "emailjs-com";
 const drawerWidth = 240;
 
 function RegisterApproval() {
@@ -41,9 +40,7 @@ function RegisterApproval() {
       onClick: () => navigate("/createEvent"),
     },
   ];
-  function sendEmail() {
-    emailjs.sendForm('service_v9fle6q', 'template_nfczxtb', 'abcd', '6MrwJ0tQ1rFaQia50')
-  }
+  
   const [data, setData] = useState([]);
   function fetchData() {
     fetch("http://localhost:3001/user_request_pending")
@@ -68,7 +65,6 @@ function RegisterApproval() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        sendEmail(user_firstname, user_work_email, event_id)
         setApproval(true)
       })
       .catch((err) => {

@@ -85,8 +85,41 @@ export default function Registerform(props) {
       setDoberror("")
     }
   }
+
+  // Method to resist duplicate records
+  const[isPresent, setPresent] = useState();
+  
+  function checkDuplicacy(firstname,eventId) {  
+    var queryString = firstname+"/"+ eventId
+    fetch("http://localhost:3001/check_user_event_details/"+ queryString)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setPresent (data[0].exists);
+      });
+      
+      return isPresent;
+  }
+
+
+
   function submit(e) {
-    if (
+
+    if(checkDuplicacy(data.firstname, props.id)){
+      toast.error("You have already registered for this event!", {
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        position: toast.POSITION.TOP_CENTER,
+      });
+      e.preventDefault();
+    }
+    else if (
       data.firstname !== "" &&
       data.lastname !== "" &&
       data.workemail !== "" &&
