@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -86,27 +86,37 @@ export default function Registerform(props) {
     }
   }
 
-  // Method to resist duplicate records
+  // Method to avoid duplicate records
   const[isPresent, setPresent] = useState();
-  
-  function checkDuplicacy(firstname,eventId) {  
-    var queryString = firstname+"/"+ eventId
-    fetch("http://localhost:3001/check_user_event_details/"+ queryString)
-      .then((response) => {
-        return response.json();
+  function checkDuplicacy() {  
+    fetch("http://localhost:3001/check_user_event_details", {
+        method: "POST",
+        body: JSON.stringify({
+          email: data.workemail,
+          eventId: props.id
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
       })
+        .then((response) => response.json())
+
       .then((data) => {
+        console.log("email: "+data.workemail)
+        console.log("exists: ",data[0].exists)
         setPresent (data[0].exists);
       });
-      
-      return isPresent;
+
   }
 
+  useEffect(() => {
+    checkDuplicacy();
+  },[data.workemail])
 
 
   function submit(e) {
 
-    if(checkDuplicacy(data.firstname, props.id)){
+    if(isPresent){
       toast.error("You have already registered for this event!", {
         autoClose: 4000,
         hideProgressBar: true,
@@ -147,7 +157,8 @@ export default function Registerform(props) {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          // Handle data
+          console.log("email: " +data.workemail);
+          
         })
         .catch((err) => {
           console.log(err.message);
@@ -163,6 +174,7 @@ export default function Registerform(props) {
         theme: "colored",
         position: toast.POSITION.TOP_CENTER,
       });
+      e.preventDefault();
     } else {
       toast.error("Please enter all the details", {
         autoClose: 4000,
@@ -240,7 +252,7 @@ export default function Registerform(props) {
                 <tbody>
                   <tr>
                     <td>
-                      <label className="label">First Name</label>
+                      <label className="label">First Name<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input
@@ -255,7 +267,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Last Name</label>
+                      <label className="label">Last Name<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input
@@ -270,7 +282,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Work Email</label>
+                      <label className="label">Work Email<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input
@@ -288,7 +300,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Mobile Number</label>
+                      <label className="label">Mobile Number<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input
@@ -306,7 +318,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">DOB</label>
+                      <label className="label">DOB<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input
@@ -322,7 +334,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Gender</label>
+                      <label className="label">Gender<span style = {{color:'red'}}>*</span></label>
                       <br />
                     </td>
                     <td>
@@ -347,7 +359,7 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Upload Profile Photo</label>
+                      <label className="label">Upload Profile Photo<span style = {{color:'red'}}>*</span></label>
                     </td>
                     <td>
                       <input

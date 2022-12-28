@@ -52,41 +52,53 @@ function RegisterApproval() {
         setData(data);
       });
   }
+
   useEffect(() => {
     fetchData();
   }, [approval]);
 
-  function accept(user_firstname, event_id, user_work_email) {
-
-    const queryString = user_firstname + "/" + event_id + "/" + user_work_email;
-    fetch("http://localhost:3001/user_Accrequest/" + queryString, {
-      method: "PUT"
-    })
+  function accept( user_firstname, user_work_email, event_id ) {
+    fetch("http://localhost:3001/user_Rejrequest", {
+        method: "POST",
+        body: JSON.stringify({
+          fname: user_firstname,
+          email: user_work_email,
+          eventId: event_id
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setApproval(true)
+        console.log(data);  
       })
       .catch((err) => {
         console.log(err.message);
       });
+      setApproval(!approval)
 
   }
-  function reject(user_firstname, event_id) {
+  function reject( user_work_email, event_id ) {
 
-    const queryString = user_firstname + "/" + event_id;
-    fetch("http://localhost:3001/user_Rejrequest/" + queryString, {
-      method: "PUT"
-    })
+    fetch("http://localhost:3001/user_Rejrequest", {
+        method: "POST",
+        body: JSON.stringify({
+          email: user_work_email,
+          eventId: event_id
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setApproval(true)
-        // Handle data
       })
       .catch((err) => {
         console.log(err.message);
       });
+      setApproval(!approval)
 
   }
 
@@ -115,7 +127,9 @@ function RegisterApproval() {
             User
           </Button>
           Admin
-          <br />
+          <Button color="inherit" onClick={() => navigate("/")}>
+            Log out
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -168,14 +182,14 @@ function RegisterApproval() {
                   <td>{user.user_lasttname}</td>
                   <td>{user.user_work_email}</td>
                   <td>{user.user_mobile}</td>
-                  <td>{user.user_dob}</td>
+                  <td>{(user.user_dob).split('T')[0]}</td>
                   <td>{user.user_gender}</td>
                   <td><img className="profile-pic"
                     src={user.user_image} /></td>
                   <td>
                     <button
                       className="btn btn-success"
-                      onClick={() => accept(user.user_firstname, user.event_id, user.user_work_email)}
+                      onClick={() => accept( user.user_firstname, user.user_work_email, user.event_id )}
                     >
                       Accept
                     </button>
@@ -183,7 +197,7 @@ function RegisterApproval() {
                   <td>
                     <button
                       className="btn btn-danger"
-                      onClick={() => reject(user.user_firstname, user.event_id)}
+                      onClick={() => reject(user.user_work_email, user.event_id)}
                     >
                       Reject
                     </button>
