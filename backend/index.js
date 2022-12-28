@@ -108,6 +108,7 @@ app.put('/user_Rejrequest/:fname/:id', (req, res) => {
   })
 })
 
+// TO CHECK RECORDS BY USER's FIRST NAME AND EVENT ID
 app.get('/check_user_event_details/:fname/:id', (req, res) => {
   console.log(req.params)
   user_event_details_model.checkDuplicacy(req.params.fname,req.params.id)
