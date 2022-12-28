@@ -57,15 +57,21 @@ function RegisterApproval() {
     fetchData();
   }, [approval]);
 
-  function accept(user_firstname, event_id, user_work_email) {
-    const queryString = user_firstname + "/" + event_id + "/" + user_work_email;
-    fetch("http://localhost:3001/user_Accrequest/" + queryString, {
-      method: "PUT"
-    })
+  function accept( user_firstname, user_work_email, event_id ) {
+    fetch("http://localhost:3001/user_Rejrequest", {
+        method: "POST",
+        body: JSON.stringify({
+          fname: user_firstname,
+          email: user_work_email,
+          eventId: event_id
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        
+        console.log(data);  
       })
       .catch((err) => {
         console.log(err.message);
@@ -73,12 +79,18 @@ function RegisterApproval() {
       setApproval(!approval)
 
   }
-  function reject(user_firstname, event_id) {
+  function reject( user_work_email, event_id ) {
 
-    const queryString = user_firstname + "/" + event_id;
-    fetch("http://localhost:3001/user_Rejrequest/" + queryString, {
-      method: "PUT"
-    })
+    fetch("http://localhost:3001/user_Rejrequest", {
+        method: "POST",
+        body: JSON.stringify({
+          email: user_work_email,
+          eventId: event_id
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -177,7 +189,7 @@ function RegisterApproval() {
                   <td>
                     <button
                       className="btn btn-success"
-                      onClick={() => accept(user.user_firstname, user.event_id, user.user_work_email)}
+                      onClick={() => accept( user.user_firstname, user.user_work_email, user.event_id )}
                     >
                       Accept
                     </button>
@@ -185,7 +197,7 @@ function RegisterApproval() {
                   <td>
                     <button
                       className="btn btn-danger"
-                      onClick={() => reject(user.user_firstname, user.event_id)}
+                      onClick={() => reject(user.user_work_email, user.event_id)}
                     >
                       Reject
                     </button>

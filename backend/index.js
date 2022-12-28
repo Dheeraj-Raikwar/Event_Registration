@@ -81,24 +81,21 @@ app.get('/user_request_pending', (req, res) => {
 })
 
 // TO ACCEPT A REQUEST BY USER's FIRST NAME AND EVENT ID
-app.put('/user_Accrequest/:fname/:id/:email', (req, res) => {
+app.put('/user_Accrequest', (body) => {
   console.log(req.params)
-  user_event_details_model.acceptRequest(req.params.fname,req.params.id,req.params.email)
+  user_event_details_model.acceptRequest(req.body)
   .then(response => {
     res.status(200).send(response);
-
   })
   .catch(error => {
-    console.log(error)
     res.status(500).send(error);
   })
 })
 
 
 // TO REJECT A REQUEST BY USER's FIRST NAME AND EVENT ID
-app.put('/user_Rejrequest/:fname/:id', (req, res) => {
-  console.log(req.params)
-  user_event_details_model.rejectRequest(req.params.fname,req.params.id)
+app.post('/user_Rejrequest', (req, res) => {
+  user_event_details_model.rejectRequest(req.body)
   .then(response => {
     res.status(200).send(response);
   })
@@ -108,10 +105,9 @@ app.put('/user_Rejrequest/:fname/:id', (req, res) => {
   })
 })
 
-// TO CHECK RECORDS BY USER's FIRST NAME AND EVENT ID
-app.get('/check_user_event_details/:fname/:id', (req, res) => {
-  console.log(req.params)
-  user_event_details_model.checkDuplicacy(req.params.fname,req.params.id)
+// TO CHECK RECORDS BY USERs EMAIL AND EVENT ID
+app.post('/check_user_event_details', (req, res) => {
+  user_event_details_model.checkDuplicacy(req.body)
   .then(response => {
     res.status(200).send(response);
 

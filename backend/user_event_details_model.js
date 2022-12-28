@@ -48,38 +48,32 @@ const getUserRequestpending = () => {
 	})
 }
 
-const acceptRequest = (fname, id, email) => {
+const acceptRequest = (body) => {
 	return new Promise(function (resolve, reject) {
-		console.log("fname " + fname);
-		console.log("id " + id);
-		console.log("fname " + email);
-		pool.query("UPDATE USER_EVENT_DETAILS SET status='ACCEPTED' WHERE user_firstname = $1 AND event_id=$2", [fname, id], (error, results) => {
+		pool.query("UPDATE USER_EVENT_DETAILS SET status='ACCEPTED' WHERE user_firstname = $1 AND event_id=$2", [body.email, body.eventId], (error, results) => {
 			if (error) {
 				reject(error)
 			}
 			console.log(results);
-			sendEmail(fname, email, id);
-			resolve(`EVENT REQUEST ACCEPTED OF THE USER: ${fname} FOR Event ID: ${id}`)
+			sendEmail(body.fname, body.email, body.eventId);
+			resolve(`EVENT REQUEST ACCEPTED OF THE USER ${body.email} FOR Event ID: ${body.eventId}`)
 		})
 	})
 }
 
-const rejectRequest = (fname, id) => {
+const rejectRequest = (body) => {
 	return new Promise(function (resolve, reject) {
-		console.log("fname " + fname);
-		console.log("id " + id);
-		pool.query("UPDATE USER_EVENT_DETAILS SET status='REJECTED' WHERE user_firstname = $1 AND event_id=$2", [fname, id], (error, results) => {
+		pool.query("UPDATE USER_EVENT_DETAILS SET status='REJECTED' WHERE user_work_email = $1 AND event_id=$2", [body.email, body.eventId], (error, results) => {
 			if (error) {
 				reject(error)
 			}
 			console.log(results);
-			resolve(`EVENT REQUEST REJECTED OF THE USER: ${fname} FOR Event ID: ${id}`)
+			resolve(`EVENT REQUEST REJECTED OF THE USER ${body.email} FOR Event ID: ${body.eventId}`)
 		})
 	})
 }
 
 const getUser_ByEvent = (eventId) => {
-
 	return new Promise(function (resolve, reject) {
 		pool.query("SELECT * FROM USER_EVENT_DETAILS WHERE event_id=$1 AND status !='REJECTED'", [eventId], (error, results) => {
 			if (error) {
@@ -90,10 +84,9 @@ const getUser_ByEvent = (eventId) => {
 	})
 }
 
-const checkDuplicacy = (fname, eventId) => {
-
+const checkDuplicacy = (body) => {
 	return new Promise(function (resolve, reject) {
-		pool.query("SELECT EXISTS(SELECT * FROM user_event_details WHERE user_firstname = $1 AND event_id = $2)", [fname, eventId], (error, results) => {
+		pool.query("SELECT EXISTS(SELECT * FROM user_event_details WHERE user_work_email = $1 AND event_id = $2)", [body.email, body.eventId], (error, results) => {
 			if (error) {
 				reject(error)
 			}

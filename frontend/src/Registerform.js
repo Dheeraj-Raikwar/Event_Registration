@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -86,27 +86,37 @@ export default function Registerform(props) {
     }
   }
 
-  // Method to resist duplicate records
+  // Method to avoid duplicate records
   const[isPresent, setPresent] = useState();
-  
-  function checkDuplicacy(firstname,eventId) {  
-    var queryString = firstname+"/"+ eventId
-    console.log("firstname: "+ firstname + "eventId: " +eventId)
-    fetch("http://localhost:3001/check_user_event_details/"+ queryString)
-      .then((response) => {
-        return response.json();
+  function checkDuplicacy() {  
+    fetch("http://localhost:3001/check_user_event_details", {
+        method: "POST",
+        body: JSON.stringify({
+          email: data.workemail,
+          eventId: props.id
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
       })
+        .then((response) => response.json())
+
       .then((data) => {
+        console.log("email: "+data.workemail)
+        console.log("exists: ",data[0].exists)
         setPresent (data[0].exists);
       });
-      
-      return isPresent;
+
   }
+
+  useEffect(() => {
+    checkDuplicacy();
+  },[data.workemail])
 
 
   function submit(e) {
-    var isPresent2 = checkDuplicacy(data.firstname, props.id);
-    if(isPresent2){
+
+    if(isPresent){
       toast.error("You have already registered for this event!", {
         autoClose: 4000,
         hideProgressBar: true,
@@ -147,6 +157,7 @@ export default function Registerform(props) {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
+          console.log("email: " +data.workemail);
           
         })
         .catch((err) => {
