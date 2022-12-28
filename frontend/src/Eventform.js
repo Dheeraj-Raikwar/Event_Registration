@@ -132,7 +132,9 @@ function Eventform() {
             User
           </Button>
           Admin
-          <br />
+          <Button color="inherit" onClick={() => navigate("/")}>
+            Log out
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
