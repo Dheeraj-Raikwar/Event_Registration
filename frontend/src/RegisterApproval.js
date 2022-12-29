@@ -42,11 +42,11 @@ function RegisterApproval() {
     },
     {
       text: "Rejected users",
-      icon: <BlockIcon/>,
+      icon: <BlockIcon />,
       onClick: () => navigate("/rejectedUsers"),
     }
   ];
-  
+
   const [data, setData] = useState([]);
   function fetchData() {
     fetch("http://localhost:3001/user_request_pending")
@@ -63,41 +63,19 @@ function RegisterApproval() {
     fetchData();
   }, [approval]);
 
-  function accept( user_firstname, user_work_email, event_id ) {
-    console.log("user_firstname " + user_firstname+ "user_work_email " +user_work_email+"event_id"+event_id)
+  function accept(user_firstname, user_work_email, event_id) {
+    console.log("user_firstname " + user_firstname + "user_work_email " + user_work_email + "event_id" + event_id)
     fetch("http://localhost:3001/user_Accrequest", {
-        method: "POST",
-        body: JSON.stringify({
-          fname: user_firstname,
-          email: user_work_email,
-          eventId: event_id
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);  
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-      setApproval(!approval)
-
-  }
-  function reject( user_work_email, event_id ) {
-
-    fetch("http://localhost:3001/user_Rejrequest", {
-        method: "POST",
-        body: JSON.stringify({
-          email: user_work_email,
-          eventId: event_id
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
+      method: "POST",
+      body: JSON.stringify({
+        fname: user_firstname,
+        email: user_work_email,
+        eventId: event_id
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -105,7 +83,29 @@ function RegisterApproval() {
       .catch((err) => {
         console.log(err.message);
       });
-      setApproval(!approval)
+    setApproval(!approval)
+
+  }
+  function reject(user_work_email, event_id) {
+
+    fetch("http://localhost:3001/user_Rejrequest", {
+      method: "POST",
+      body: JSON.stringify({
+        email: user_work_email,
+        eventId: event_id
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+    setApproval(!approval)
 
   }
 
@@ -196,7 +196,7 @@ function RegisterApproval() {
                   <td>
                     <button
                       className="btn btn-success"
-                      onClick={() => accept( user.user_firstname, user.user_work_email, user.event_id )}
+                      onClick={() => accept(user.user_firstname, user.user_work_email, user.event_id)}
                     >
                       Accept
                     </button>

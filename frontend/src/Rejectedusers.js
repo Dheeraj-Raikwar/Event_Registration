@@ -26,27 +26,27 @@ function Rejectedusers() {
   const navigate = useNavigate();
   const itemsList = [
     {
-        text: "Accepted users",
-        icon: <HowToRegIcon />,
-        onClick: () => navigate("/acceptedUsers"),
-      },
-      {
-        text: "Registration approval",
-        icon: <FlakyIcon />,
-        onClick: () => navigate("/registerApproval"),
-      },
-      {
-        text: "Create event",
-        icon: <AddBoxIcon />,
-        onClick: () => navigate("/createEvent"),
-      },
-      {
-        text: "Rejected users",
-        icon: <BlockIcon/>,
-        onClick: () => navigate("/rejectedUsers"),
-      }
+      text: "Accepted users",
+      icon: <HowToRegIcon />,
+      onClick: () => navigate("/acceptedUsers"),
+    },
+    {
+      text: "Registration approval",
+      icon: <FlakyIcon />,
+      onClick: () => navigate("/registerApproval"),
+    },
+    {
+      text: "Create event",
+      icon: <AddBoxIcon />,
+      onClick: () => navigate("/createEvent"),
+    },
+    {
+      text: "Rejected users",
+      icon: <BlockIcon />,
+      onClick: () => navigate("/rejectedUsers"),
+    }
   ];
-  
+
   const [data, setData] = useState([]);
   function fetchData() {
     fetch("http://localhost:3001/user_request_rejected")

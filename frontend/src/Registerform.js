@@ -14,7 +14,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { green } from "@mui/material/colors";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -25,7 +24,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const modalcolor = green[500];
 const style = {
   position: "absolute",
   top: "50%",
@@ -163,8 +161,8 @@ export default function Registerform(props) {
   }
 
   useEffect(() => {
-    console.log("isPresent: " +isPresent)
-    console.log("data.workemail: " +data.workemail)
+    console.log("isPresent: " + isPresent)
+    console.log("data.workemail: " + data.workemail)
     console.log("props.id: " + props.id)
     checkDuplicacy();
   }, [data.workemail]);
@@ -216,7 +214,7 @@ export default function Registerform(props) {
         });
       handleClickOpenModal();
       e.preventDefault();
-      
+
     } else {
       toast.error("Please enter all the details", {
         autoClose: 4000,
@@ -461,14 +459,14 @@ export default function Registerform(props) {
                     <DialogContent dividers>
                       <Typography gutterBottom>
                         <p>Hii,{" "}
-                        <span className="font-weight-bold">
-                          {data.firstname}
-                        </span>{"! "}
-                        You have successfully registered for the event.</p>
+                          <span className="font-weight-bold">
+                            {data.firstname}
+                          </span>{"! "}
+                          You have successfully registered for the event.</p>
                         <p>Your request is{" "}
-                        <span className="font-weight-bold">under process</span>.</p><br/> <p>Kindly wait for the admin to
-                        approve your request. You will get a confirmation email soon.</p><br/> Thank you.
-                        
+                          <span className="font-weight-bold">under process</span>.</p><br /> <p>Kindly wait for the admin to
+                            approve your request. You will get a confirmation email soon.</p><br /> Thank you.
+
                       </Typography>
                     </DialogContent>
                     <DialogActions>

@@ -62,6 +62,6 @@ export default function Home() {
           />
         </Carousel.Item>
       </Carousel>
-      </div>
+    </div>
   );
 }

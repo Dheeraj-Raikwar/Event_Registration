@@ -56,16 +56,16 @@ const createUser_event_details = (body) => {
       event_id,
       event_category,
     ] = [
-      body.user_firstname,
-      body.user_lasttname,
-      body.user_work_email,
-      body.user_mobile,
-      body.user_dob,
-      body.user_gender,
-      body.user_image,
-      body.event_id,
-      body.event_category,
-    ];
+        body.user_firstname,
+        body.user_lasttname,
+        body.user_work_email,
+        body.user_mobile,
+        body.user_dob,
+        body.user_gender,
+        body.user_image,
+        body.event_id,
+        body.event_category,
+      ];
 
     pool.query(
       "INSERT INTO USER_EVENT_DETAILS (user_firstname, user_lasttname, user_work_email, user_mobile, user_dob, user_gender, user_image, event_id, event_category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
