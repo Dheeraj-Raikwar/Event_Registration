@@ -14,7 +14,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { color } from "@mui/system";
 import { green } from "@mui/material/colors";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -135,7 +134,6 @@ export default function Registerform(props) {
   function validateDob(e) {
     const date = new Date(data.dob);
     const userAge = 2022 - date.getFullYear();
-    console.log(userAge);
     if (userAge < 18) {
       setDoberror("Age must be above 18");
     } else {
@@ -159,13 +157,15 @@ export default function Registerform(props) {
       .then((response) => response.json())
 
       .then((data) => {
-        console.log("email: " + data.workemail);
         console.log("exists: ", data[0].exists);
         setPresent(data[0].exists);
       });
   }
 
   useEffect(() => {
+    console.log("isPresent: " +isPresent)
+    console.log("data.workemail: " +data.workemail)
+    console.log("props.id: " + props.id)
     checkDuplicacy();
   }, [data.workemail]);
 
@@ -209,8 +209,7 @@ export default function Registerform(props) {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          console.log("email: " + data.workemail);
+          console.log("Response: ", data);
         })
         .catch((err) => {
           console.log(err.message);
