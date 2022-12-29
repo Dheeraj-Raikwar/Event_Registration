@@ -6,7 +6,27 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PropTypes from "prop-types";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { color } from "@mui/system";
+import { green } from "@mui/material/colors";
 
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+
+const modalcolor = green[500];
 const style = {
   position: "absolute",
   top: "50%",
@@ -19,24 +39,60 @@ const style = {
   p: 4,
 };
 
+function BootstrapDialogTitle(props) {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+}
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
+
 export default function Registerform(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [emailError, setEmailError] = useState("")
-  const [mobileError, setMobileerror] = useState("")
-  const [dobError, setDoberror] = useState("")
-  const [profilePhoto, setProfilephoto] = useState()
+  const [emailError, setEmailError] = useState("");
+  const [mobileError, setMobileerror] = useState("");
+  const [dobError, setDoberror] = useState("");
+  const [profilePhoto, setProfilephoto] = useState();
   const [data, setData] = useState({
     firstname: "",
     lastname: "",
     workemail: "",
     mobile: "",
     dob: "",
-    gender: ""
+    gender: "",
   });
 
+  const [openModal, setOpenModal] = React.useState(false);
 
+  const handleClickOpenModal = () => {
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
   function validateDomain(email, companyName) {
     return companyName.some((val) => email.includes(val));
   }
@@ -66,57 +122,55 @@ export default function Registerform(props) {
   }
 
   function validateMobile(e) {
-    if (((data.mobile.length > 10) || (data.mobile.length < 10)) && (!(data.mobile.match('[0-9]{10}')))) {
+    if (
+      (data.mobile.length > 10 || data.mobile.length < 10) &&
+      !data.mobile.match("[0-9]{10}")
+    ) {
       setMobileerror("Please enter valid mobile number");
-    }
-    else {
+    } else {
       setMobileerror("");
     }
   }
 
   function validateDob(e) {
-    const date = new Date(data.dob)
-    const userAge = 2022 - (date.getFullYear())
-    console.log(userAge)
+    const date = new Date(data.dob);
+    const userAge = 2022 - date.getFullYear();
+    console.log(userAge);
     if (userAge < 18) {
-      setDoberror("Age must be above 18")
-    }
-    else {
-      setDoberror("")
+      setDoberror("Age must be above 18");
+    } else {
+      setDoberror("");
     }
   }
 
   // Method to avoid duplicate records
-  const[isPresent, setPresent] = useState();
-  function checkDuplicacy() {  
+  const [isPresent, setPresent] = useState();
+  function checkDuplicacy() {
     fetch("http://localhost:3001/check_user_event_details", {
-        method: "POST",
-        body: JSON.stringify({
-          email: data.workemail,
-          eventId: props.id
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((response) => response.json())
+      method: "POST",
+      body: JSON.stringify({
+        email: data.workemail,
+        eventId: props.id,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
 
       .then((data) => {
-        console.log("email: "+data.workemail)
-        console.log("exists: ",data[0].exists)
-        setPresent (data[0].exists);
+        console.log("email: " + data.workemail);
+        console.log("exists: ", data[0].exists);
+        setPresent(data[0].exists);
       });
-
   }
 
   useEffect(() => {
     checkDuplicacy();
-  },[data.workemail])
-
+  }, [data.workemail]);
 
   function submit(e) {
-
-    if(isPresent){
+    if (isPresent) {
       toast.error("You have already registered for this event!", {
         autoClose: 4000,
         hideProgressBar: true,
@@ -128,8 +182,7 @@ export default function Registerform(props) {
         position: toast.POSITION.TOP_CENTER,
       });
       e.preventDefault();
-    }
-    else if (
+    } else if (
       data.firstname !== "" &&
       data.lastname !== "" &&
       data.workemail !== "" &&
@@ -157,24 +210,14 @@ export default function Registerform(props) {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          console.log("email: " +data.workemail);
-          
+          console.log("email: " + data.workemail);
         })
         .catch((err) => {
           console.log(err.message);
         });
-
-      toast.success("Registered Successfully!", {
-        autoClose: 6000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        position: toast.POSITION.TOP_CENTER,
-      });
+      handleClickOpenModal();
       e.preventDefault();
+      
     } else {
       toast.error("Please enter all the details", {
         autoClose: 4000,
@@ -252,7 +295,9 @@ export default function Registerform(props) {
                 <tbody>
                   <tr>
                     <td>
-                      <label className="label">First Name<span style = {{color:'red'}}>*</span></label>
+                      <label className="label">
+                        First Name<span style={{ color: "red" }}>*</span>
+                      </label>
                     </td>
                     <td>
                       <input
@@ -267,7 +312,9 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Last Name<span style = {{color:'red'}}>*</span></label>
+                      <label className="label">
+                        Last Name<span style={{ color: "red" }}>*</span>
+                      </label>
                     </td>
                     <td>
                       <input
@@ -282,7 +329,9 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Work Email<span style = {{color:'red'}}>*</span></label>
+                      <label className="label">
+                        Work Email<span style={{ color: "red" }}>*</span>
+                      </label>
                     </td>
                     <td>
                       <input
@@ -300,7 +349,9 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Mobile Number<span style = {{color:'red'}}>*</span></label>
+                      <label className="label">
+                        Mobile Number<span style={{ color: "red" }}>*</span>
+                      </label>
                     </td>
                     <td>
                       <input
@@ -318,7 +369,9 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">DOB<span style = {{color:'red'}}>*</span></label>
+                      <label className="label">
+                        DOB<span style={{ color: "red" }}>*</span>
+                      </label>
                     </td>
                     <td>
                       <input
@@ -334,7 +387,9 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Gender<span style = {{color:'red'}}>*</span></label>
+                      <label className="label">
+                        Gender<span style={{ color: "red" }}>*</span>
+                      </label>
                       <br />
                     </td>
                     <td>
@@ -359,7 +414,10 @@ export default function Registerform(props) {
                   </tr>
                   <tr>
                     <td>
-                      <label className="label">Upload Profile Photo<span style = {{color:'red'}}>*</span></label>
+                      <label className="label">
+                        Upload Profile Photo
+                        <span style={{ color: "red" }}>*</span>
+                      </label>
                     </td>
                     <td>
                       <input
@@ -387,6 +445,48 @@ export default function Registerform(props) {
                 >
                   Register
                 </button>
+
+                {openModal ? (
+                  <BootstrapDialog
+                    onClose={handleCloseModal}
+                    aria-labelledby="customized-dialog-title"
+                    open={open}
+                  >
+                    <BootstrapDialogTitle
+                      id="customized-dialog-title"
+                      onClose={handleCloseModal}
+                      sx={{ color: "success.dark" }}
+                    >
+                      Congratulations!
+                    </BootstrapDialogTitle>
+                    <DialogContent dividers>
+                      <Typography gutterBottom>
+                        <p>Hii,{" "}
+                        <span className="font-weight-bold">
+                          {data.firstname}
+                        </span>{"! "}
+                        You have successfully registered for the event.</p>
+                        <p>Your request is{" "}
+                        <span className="font-weight-bold">under process</span>.</p><br/> <p>Kindly wait for the admin to
+                        approve your request. You will get a confirmation email soon.</p><br/> Thank you.
+                        
+                      </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        autoFocus
+                        onClick={() => {
+                          handleCloseModal();
+                          handleClose();
+                          setData("")
+                        }}
+                        color="primary" variant="raised"
+                      >
+                        Ok
+                      </Button>
+                    </DialogActions>
+                  </BootstrapDialog>
+                ) : null}
               </div>
             </form>
           </Typography>

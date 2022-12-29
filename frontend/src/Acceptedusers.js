@@ -21,11 +21,12 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import BlockIcon from '@mui/icons-material/Block';
 
 
 const drawerWidth = 240;
 
-function RegisteredUsers() {
+function Acceptedusers() {
   const [search, setSearch] = useState([]);
   const [data, setData] = useState([]);
   const [select, setSelect] = useState(false);
@@ -69,9 +70,9 @@ function RegisteredUsers() {
   const navigate = useNavigate();
   const itemsList = [
     {
-      text: "Registered users",
+      text: "Accepted users",
       icon: <HowToRegIcon />,
-      onClick: () => navigate("/registeredUsers"),
+      onClick: () => navigate("/acceptedUsers"),
     },
     {
       text: "Registration approval",
@@ -83,6 +84,11 @@ function RegisteredUsers() {
       icon: <AddBoxIcon />,
       onClick: () => navigate("/createEvent"),
     },
+    {
+      text: "Rejected users",
+      icon: <BlockIcon />,
+      onClick: () => navigate("/rejectedUsers"),
+    }
   ];
 
   return (
@@ -165,13 +171,13 @@ function RegisteredUsers() {
         <table className="table">
           <thead className="table-info thead-width">
             <tr>
-              <th scope="col">First_Name</th>
-              <th scope="col">Last_Name</th>
-              <th scope="col">email</th>
-              <th scope="col">Mobile_No</th>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Mobile No</th>
               <th scope="col">DOB</th>
               <th scope="col">Gender</th>
-              <th scope="col">Profile Pic</th>
+              <th scope="col">Profile Picture</th>
             </tr>
           </thead>
           {select ? (
@@ -219,4 +225,4 @@ function RegisteredUsers() {
   );
 }
 
-export default RegisteredUsers;
+export default Acceptedusers;
