@@ -35,7 +35,7 @@ export default function Adminlogin() {
     function login(e) {
         e.preventDefault()
         if ((data.email === 'rekha@jmangroup.com') && (data.password === '1234567')) {
-            navigate("/registeredUsers")
+            navigate("/acceptedUsers")
             handleClose()
         }
         else {
@@ -87,7 +87,7 @@ export default function Adminlogin() {
                                 className='input'
                                 id="password"
                                 placeholder="password"
-                                type="text"
+                                type="password"
                             ></input><br /><br />
                             <div class="text-center"><button type="submit" class="btn btn-info" onClick={(e) => login(e)}>
                                 Login

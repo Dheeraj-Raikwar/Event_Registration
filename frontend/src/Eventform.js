@@ -15,6 +15,7 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import FlakyIcon from "@mui/icons-material/Flaky";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import BlockIcon from '@mui/icons-material/Block';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -24,9 +25,9 @@ function Eventform() {
   const navigate = useNavigate();
   const itemsList = [
     {
-      text: "Registered users",
+      text: "Accepted users",
       icon: <HowToRegIcon />,
-      onClick: () => navigate("/registeredUsers"),
+      onClick: () => navigate("/acceptedUsers"),
     },
     {
       text: "Registration approval",
@@ -38,6 +39,11 @@ function Eventform() {
       icon: <AddBoxIcon />,
       onClick: () => navigate("/createEvent"),
     },
+    {
+      text: "Rejected users",
+      icon: <BlockIcon />,
+      onClick: () => navigate("/rejectedUsers"),
+    }
   ];
   const url = "http://localhost:8080/addtask";
   const [data, setData] = useState({
@@ -173,7 +179,7 @@ function Eventform() {
               <tbody>
                 <tr>
                   <td>
-                    <label className="label">Name<span style = {{color:'red'}}>*</span></label>
+                    <label className="label">Name<span style={{ color: 'red' }}>*</span></label>
                   </td>
                   <td>
                     <input
@@ -189,7 +195,7 @@ function Eventform() {
                 <br />
                 <tr>
                   <td>
-                    <label className="label">Description<span style = {{color:'red'}}>*</span></label>
+                    <label className="label">Description<span style={{ color: 'red' }}>*</span></label>
                   </td>
                   <td>
                     <input
@@ -205,7 +211,7 @@ function Eventform() {
                 <br />
                 <tr>
                   <td>
-                    <label className="label">Category<span style = {{color:'red'}}>*</span></label>
+                    <label className="label">Category<span style={{ color: 'red' }}>*</span></label>
                   </td>
                   <td>
                     <select
@@ -242,7 +248,7 @@ function Eventform() {
                 <br />
                 <tr>
                   <td>
-                    <label className="label">Date<span style = {{color:'red'}}>*</span></label>
+                    <label className="label">Date<span style={{ color: 'red' }}>*</span></label>
                   </td>
                   <td>
                     <input

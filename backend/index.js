@@ -108,8 +108,7 @@ app.get("/user_request_rejected", (req, res) => {
 });
 
 // TO ACCEPT A REQUEST BY USER's EMAIL AND EVENT ID
-app.put("/user_Accrequest", (body) => {
-  console.log(req.params);
+app.post("/user_Accrequest", (req, res) => {
   user_event_details_model
     .acceptRequest(req.body)
     .then((response) => {

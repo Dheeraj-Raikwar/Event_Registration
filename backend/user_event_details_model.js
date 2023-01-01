@@ -56,16 +56,16 @@ const createUser_event_details = (body) => {
       event_id,
       event_category,
     ] = [
-      body.user_firstname,
-      body.user_lasttname,
-      body.user_work_email,
-      body.user_mobile,
-      body.user_dob,
-      body.user_gender,
-      body.user_image,
-      body.event_id,
-      body.event_category,
-    ];
+        body.user_firstname,
+        body.user_lasttname,
+        body.user_work_email,
+        body.user_mobile,
+        body.user_dob,
+        body.user_gender,
+        body.user_image,
+        body.event_id,
+        body.event_category,
+      ];
 
     pool.query(
       "INSERT INTO USER_EVENT_DETAILS (user_firstname, user_lasttname, user_work_email, user_mobile, user_dob, user_gender, user_image, event_id, event_category) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
@@ -136,13 +136,13 @@ const acceptRequest = (body) => {
     }
 
     pool.query(
-      "UPDATE USER_EVENT_DETAILS SET status='ACCEPTED' WHERE user_firstname = $1 AND event_id=$2",
+      "UPDATE USER_EVENT_DETAILS SET status='ACCEPTED' WHERE user_work_email = $1 AND event_id=$2",
       [body.email, body.eventId],
       (error, results) => {
         if (error) {
           reject(error);
         }
-        sendEmail(body.fname, body.email, body.eventId);
+        //sendEmail(body.fname, body.email, body.eventId);
         resolve(
           `EVENT REQUEST ACCEPTED OF THE USER ${body.email} FOR Event ID: ${body.eventId}`
         );
@@ -216,7 +216,7 @@ const checkDuplicacy = (body) => {
     );
   });
 };
-
+/*
 // Function to send email
 function sendEmail(userName, userEmail, eventId) {
   var transporter = nodemailer.createTransport({
@@ -228,7 +228,7 @@ function sendEmail(userName, userEmail, eventId) {
     },
     auth: {
       user: "dheerajraikwar@jmangroup.com",
-      pass: "Compact@23",
+      pass: "",
     },
   });
 
@@ -257,7 +257,7 @@ function sendEmail(userName, userEmail, eventId) {
 
     console.log("Email sent: " + info.response);
   });
-}
+}*/
 
 pool.end;
 module.exports = {
